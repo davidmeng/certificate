@@ -1,0 +1,59 @@
+body{
+	font-family:微软雅黑,宋体 ;
+	font-size: small;
+}
+.tableHeader{
+	background-color:#dddddd;
+	height:40px;	
+}
+.oddRow{
+	background-color:#eeeeee
+}
+.evenRow{
+	background-color:#FFFFFF
+}
+.hoverRow{
+	background-color:#FFFFB9
+}
+
+#searchTable tr{
+	height:40px;
+}
+.lockedOddRow
+{
+	background-color:#999999;	
+	color:#FFFFFF;
+}
+.lockedEvenRow
+{
+	background-color:#8F8F8F;	
+	color:#FFFFFF;
+}
+.lockedHoverRow
+{
+	background-color:#FFFFB9;	
+}
+.locked a:link{
+	color:#FFFFFF;
+}
+.locked a:visited{
+	color:#FFFFFF;
+}
+.locked a:hover{
+	color:#FFFFFF;
+}
+.locked a:active{
+	color:#FFFFFF;
+}
+a:link{
+	color:#000000;
+}
+a:visited{
+	color:#000000;
+}
+a:hover{
+	color:#000000;
+}
+a:active{
+	color:#000000;
+}

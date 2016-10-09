@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC 
+  "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" 
+  "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+<dwr>
+	<allow>
+	<!-- 以下是示例 -->
+	<!-- 
+		<create creator="spring" javascript="testBiz">
+			<param name="beanName" value="testBiz"></param>
+				<include method="getDimensionOptions"/>
+				<include method="getSearchVO"/>
+        </create>
+        <convert converter="bean" match="com.ibm.b2e.web.pojo.TUser">
+        	<param name="include" value="userName,chineseName" />
+        </convert>
+        -->
+        <create javascript="certificateDwr" 	creator="spring">
+        	<param name="beanName"				value="certificateDwr"></param>
+        </create>
+        
+        <convert converter="bean" match="mfw.acegi.pojo.Book">
+        	<param name="include" value="lendInfo,usedInfo" />
+        </convert>
+        <convert converter="bean" match="mfw.acegi.pojo.User">
+        	<param name="include" value="userName" />
+        </convert>
+	</allow>
+</dwr>

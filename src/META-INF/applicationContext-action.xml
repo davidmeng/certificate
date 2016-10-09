@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+       http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
+
+	<!-- =============================  action  ============================= -->
+	<bean name="/certificate"					class="mfw.acegi.action.CertificationListAction">
+		<property name="certificateBiz"			ref="certificateBiz"></property>
+	</bean>
+	
+	<bean name="/person"						class="mfw.acegi.action.PersonAction">
+		<property name="certificateBiz"			ref="certificateBiz"></property>
+	</bean>
+	
+	<bean name="/assign"						class="mfw.acegi.action.AssignAction">
+		<property name="certificateBiz"			ref="certificateBiz"></property>
+	</bean>
+	
+	
+	<bean name="/user"							class="mfw.acegi.action.UserAction">
+		<property name="userBiz"				ref="userBiz"></property>
+	</bean>
+	<!-- ==============================  biz  ================================= -->
+
+	<bean id="certificateBiz"					class="mfw.acegi.biz.CertificateBiz">
+		<property name="categoryDao"			ref="categoryDao"></property>
+		<property name="bookDao"				ref="bookDao"></property>
+		<property name="bookTypeDao"			ref="bookTypeDao"></property>
+		<property name="companyDao"				ref="companyDao"></property>
+		<property name="personDao"				ref="personDao"></property>
+		<property name="personBookDao"			ref="personBookDao"></property>
+		<property name="subCategoryDao"			ref="subCategoryDao"></property>
+		
+	</bean>
+	
+	<bean id="userBiz"							class="mfw.acegi.biz.UserBizImpl">
+		<property name="userDao"				ref="userDao"></property>
+		<property name="userRoleDao"			ref="userRoleDao"></property>
+	</bean>
+	
+	<!-- ==============================  dwr  ================================= -->
+	<bean id="certificateDwr"					class="mfw.acegi.dwr.DwrManager">
+		<property name="certificateBiz"			ref="certificateBiz"></property>
+		<property name="userBiz"				ref="userBiz"></property>
+	</bean>
+</beans>
+

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+  <data-sources />
+  <form-beans>
+
+    <!-- Registration form bean -->
+    <form-bean      name="cerficateForm" 	type="mfw.acegi.form.CertificateForm"/>
+    <form-bean      name="personForm" 		type="mfw.acegi.form.PersonForm"/>
+    <form-bean      name="assignForm" 		type="mfw.acegi.form.AssignForm"/>
+    <form-bean 		name="userForm" 		type="mfw.acegi.form.UserForm"></form-bean>                
+	
+  </form-beans>
+
+  <global-exceptions />
+  <global-forwards>
+    <forward   	name="Registration"         path="/Registration.jsp"/>
+    <forward	name="login" 				path="/acegilogin.jsp"></forward>
+  </global-forwards>
+  <action-mappings>
+  
+  	<action path="/user" 			name="userForm"
+		type="org.springframework.web.struts.DelegatingActionProxy"
+  		parameter="method"
+		scope="request" 	validate="false">
+	
+		<forward name="newUser" 		path="/newUser.jsp"></forward>
+		<forward name="save" 			path="/certificate.do?method=list" redirect="true"></forward>
+		<forward name="resetPassowrd" 	path="/user/resetPassword.jsp"></forward>
+		<forward name="fail" 			path="/user/resetPassword.jsp"></forward>
+		<forward name="success" 		path="/user/resetSuccess.jsp"></forward>
+	</action>
+
+	<action path="/certificate" 		name="cerficateForm"
+		type="org.springframework.web.struts.DelegatingActionProxy"
+  		parameter="method"
+		scope="request" 				validate="false">
+	
+		<forward name="success" 			path="/home.jsp"></forward>
+		<forward name="list" 				path="/list.jsp"></forward>
+		<forward name="list1" 				path="/list1.jsp"></forward>
+	</action>
+	
+	<action path="/person" 				name="personForm"
+		type="org.springframework.web.struts.DelegatingActionProxy"
+  		parameter="method"
+		scope="request" 				validate="false">
+	
+		<forward name="list" 				path="/certificate.do?method=list" redirect="true"></forward>
+		<forward name="newPerson"			path="/newPerson.jsp"></forward>
+		<forward name="personDetail"		path="/personDetail.jsp"></forward>
+		<forward name="showPersonDetail"	path="/person.do?method=personDetail"></forward>
+	</action>
+	
+	<action path="/assign" 				name="assignForm"
+		type="org.springframework.web.struts.DelegatingActionProxy"
+  		parameter="method"
+		scope="request" 				validate="false">
+	
+		<forward name="create" 				path="/assign.jsp"></forward>
+		<forward name="assign" 				path="/assign.do?method=create" redirect="true"></forward>
+	</action>
+
+  </action-mappings>
+  <controller processorClass="org.springframework.web.struts.AutowiringRequestProcessor" />
+</struts-config>
+

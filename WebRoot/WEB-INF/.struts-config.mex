@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowViewLayout Version="1.2">
+  <StrutsActivity path="/Edit*.do" location="650,50" dimension="322,84" />
+  <StrutsActivity path="/Save*.do" location="50,250" dimension="322,84" />
+  <StrutsActivity path="/user.do" location="350,650" dimension="76,60" />
+  <StrutsActivity path="/shop.do" location="650,750" dimension="76,60" />
+  <StrutsActivity path="/product.do" location="350,950" dimension="358,84" />
+  <StrutsActivity path="/SaveRegistration.do" location="650,350" dimension="400,84" />
+  <StrutsActivity path="/jcaptchaRegistration.do" location="50,450" dimension="376,84" />
+  <StrutsActivity path="/jcaptcha.do" location="650,550" dimension="412,84" />
+  <StrutsActivity path="Registration;6" location="50,50" dimension="148,72" />
+  <StrutsActivity path="/{1}.jsp" location="650,250" dimension="88,48" />
+  <StrutsActivity path="{1}" location="950,250" dimension="58,48" />
+  <StrutsActivity path="/newUser.jsp" location="50,650" dimension="112,48" />
+  <StrutsActivity path="/shop/shopList.jsp" location="50,950" dimension="148,48" />
+  <StrutsActivity path="/shop/newShop.jsp" location="950,850" dimension="142,48" />
+  <StrutsActivity path="/productList.jsp" location="50,1050" dimension="136,48" />
+  <StrutsActivity path="/product/newProduct.jsp" location="950,950" dimension="178,48" />
+  <StrutsActivity path="Registration" location="50,750" dimension="112,48" />
+  <StrutsActivity path="/Registration.jsp" location="350,50" dimension="142,48" />
+  <StrutsActivity path="/index.jsp" location="950,750" dimension="100,48" />
+  <StrutsActivity path="/newShop.jso" location="50,850" dimension="112,48" />
+  <StrutsActivity path="/newShop.jsp" location="350,850" dimension="112,48" />
+  <StrutsActivity path="/login.jsp" location="50,1150" dimension="100,48" />
+  <StrutsActivity path="/acegilogin.jsp" location="350,1150" dimension="130,48" />
+  <StrutsActivity path="login;6" location="950,1050" dimension="106,72" />
+  <StrutsTransition id="/shop.do,newShop,/shop/newShop.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="688,780" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="Registration,null,/SaveRegistration.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="Registration,null,/jcaptchaRegistration.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/product.do,list,/productList.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="529,1034" />
+      <AbsolutePoint location="529,1074" />
+      <AbsolutePoint location="186,1074" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/product.do,modify,/product/newProduct.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="708,953" />
+      <AbsolutePoint location="950,953" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/shop.do,showList,/shop/shopList.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="688,780" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="login;6,null,/acegilogin.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1003,1122" />
+      <AbsolutePoint location="1003,1174" />
+      <AbsolutePoint location="480,1174" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/shop.do,shopList,/shop.do,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="688,750" />
+      <AbsolutePoint location="688,685" />
+      <AbsolutePoint location="843,685" />
+      <AbsolutePoint location="843,758" />
+      <AbsolutePoint location="726,758" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/product.do,create,/product/newProduct.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="708,983" />
+      <AbsolutePoint location="950,983" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/user.do,save,/newUser.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="350,680" />
+      <AbsolutePoint location="162,680" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="login;6,null,/login.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1003,1122" />
+      <AbsolutePoint location="1003,1174" />
+      <AbsolutePoint location="150,1174" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/user.do,newUser,/newUser.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="388,680" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Edit*.do,success,/{1}.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="723,134" />
+      <AbsolutePoint location="723,250" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="{1},null,/Save*.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="979,298" />
+      <AbsolutePoint location="979,313" />
+      <AbsolutePoint location="372,313" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/SaveRegistration.do,success,/jcaptchaRegistration.do,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="Registration;6,null,/Registration.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="198,83" />
+      <AbsolutePoint location="350,83" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+</FlowViewLayout>
+

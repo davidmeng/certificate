@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+       http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
+
+	
+	<bean id="filterChainProxy" class="org.acegisecurity.util.FilterChainProxy">
+		<property name="filterInvocationDefinitionSource">
+			<value>
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+                PATTERN_TYPE_APACHE_ANT
+
+				/**=initParameterFilter,openSessionInViewFilter,httpSessionContextIntegrationFilter,authenticationProcessingFilter,permissionFilter,rememberMeProcessingFilter,exceptionTranslationFilter,filterInvacationInterceptor
+			</value>
+		</property>
+	</bean>
+	
+	<bean id="userServiceBiz" 				class="mfw.acegi.biz.UserServiceBizImpl" >
+		<property name="userDao" 			ref="userDao"></property>
+	</bean>
+	
+	<bean id="userDetailsServiceImpl" 		class="mfw.acegi.biz.UserDetailsServiceImpl">
+		<property name="userServiceBiz"		ref="userServiceBiz"></property>
+	</bean>
+	
+	<bean id="initParameterFilter" 			class="mfw.acegi.filter.InitParameterFilter"></bean>
+	
+	<bean id="permissionFilter"				class="mfw.acegi.filter.PermissionFilter">
+		<property name="userServiceBiz"		ref="userServiceBiz"></property>
+	</bean>
+	
+	<bean id="openSessionInViewFilter"
+		class="org.springframework.orm.hibernate3.support.OpenSessionInViewFilter" />
+	
+	<!-- 还原session认证信息 -->
+	<bean id="httpSessionContextIntegrationFilter" 		class="org.acegisecurity.context.HttpSessionContextIntegrationFilter">
+		<property name="allowSessionCreation" 			value="false"></property>
+	</bean>
+	
+	<bean id="rememberMeProcessingFilter"				class="org.acegisecurity.ui.rememberme.RememberMeProcessingFilter">
+		<property name="authenticationManager"			ref="authenticationManager" />
+		<property name="rememberMeServices" 			ref="rememberMeServices" />
+	</bean>
+	
+	
+	
+	
+	<bean id="authenticationProcessingFilter" 			class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilter">
+		<property name="authenticationManager" 			ref="authenticationManager" />
+		<property name="authenticationFailureUrl" 		value="/acegilogin.jsp?login_error=1" />
+		<property name="defaultTargetUrl" 				value="/certificate.do?method=list" />
+		<property name="filterProcessesUrl" 			value="/j_security_check" />
+		<property name="rememberMeServices" 			ref="rememberMeServices" />
+		
+	</bean>
+	
+	
+	<bean id="authenticationProcessingFilterEntryPoint" class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+		<property name="loginFormUrl" 				value="/acegilogin.jsp" />
+		<property name="forceHttps" 				value="false" />
+		<property name="serverSideRedirect" 		value="false" />
+		
+	</bean>
+
+	<bean id="exceptionTranslationFilter" 			class="org.acegisecurity.ui.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint" 	ref="authenticationProcessingFilterEntryPoint" />
+				   
+		<property name="accessDeniedHandler" >
+			<bean class="org.acegisecurity.ui.AccessDeniedHandlerImpl">
+				<property name="errorPage"	value="/acegilogin.jsp?login_error=2"></property>
+			</bean>
+		</property>
+		
+	</bean>
+	
+	
+	<bean id="rememberMeServices"				class="org.acegisecurity.ui.rememberme.TokenBasedRememberMeServices">
+		<property name="userDetailsService"		ref="userDetailsServiceImpl"></property>
+		<property name="key"					value="test"></property>
+	</bean>
+	
+	<bean id="rememberMeAuthenticationProvider"	class="org.acegisecurity.providers.rememberme.RememberMeAuthenticationProvider">
+		<property name="key"					value="test"></property>
+	</bean>
+	
+	<bean id="authenticationManager" 			class="org.acegisecurity.providers.ProviderManager">
+		<property name="providers"> 
+			<list>
+				<ref local="rememberMeAuthenticationProvider"/>
+				<ref local="anonymousAuthenticationProvider" />
+				<ref local="daoAuthenticationProvider"/>
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="anonymousAuthenticationProvider" 	class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
+		<property name="key" value="test" />
+	</bean>
+	
+	<bean id="daoAuthenticationProvider" 		class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
+		<property name="userCache" ref="userCache"/>
+		<property name="userDetailsService"	ref="userDetailsServiceImpl"></property>
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+	<!-- com.ibm.b2e.framework.component.acegi.cache.EhCacheUserCache -->
+	<bean id="userCache" 						class="mfw.acegi.framework.EhCacheBasedUserCache">
+		<property name="cache" ref="userCacheBackend"/>
+	</bean>
+	<!-- com.ibm.b2e.framework.component.acegi.cache.EhCacheFactoryBean -->
+	<bean id="userCacheBackend" 				class="mfw.acegi.framework.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager"/>
+		<property name="cacheName" value="userCache"/>
+	</bean>
+
+	<!-- com.ibm.b2e.framework.component.acegi.cache.EhCacheManagerFactoryBean -->
+	<bean id="cacheManager" class="mfw.acegi.framework.EhCacheManagerFactoryBean"> 	
+		<property name="configLocation">
+			<value>classpath:ehcache.xml</value>
+		</property>		
+	</bean>
+	
+	<bean id="passwordEncoder"  				class="org.acegisecurity.providers.encoding.Md5PasswordEncoder" />
+		
+	
+	<bean id="filterInvacationInterceptor" class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+		<property name="accessDecisionManager"
+			ref="accessDecisionManager" />
+		<property name="objectDefinitionSource">
+			<value>
+				PATTERN_TYPE_APACHE_ANT
+				
+				/certificate* = ROLE_SUPER,ROLE_VIEW
+				/person* = ROLE_SUPER,ROLE_VIEW
+				/assign* = ROLE_SUPER,ROLE_VIEW
+				/user* = ROLE_ADMIN
+				/newUser* = ROLE_ADMIN
+			</value>
+		
+		</property>
+	</bean>
+	
+	<bean id="accessDecisionManager"
+		class="org.acegisecurity.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter"/>				
+			</list>
+		</property>
+	</bean>
+	
+		
+	<bean id="roleVoter" class="org.acegisecurity.vote.RoleVoter">
+		<property name="rolePrefix" value="ROLE_" />
+	</bean>
+	
+	 
+</beans>
+

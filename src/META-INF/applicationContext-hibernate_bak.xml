@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+       http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
+       
+       <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://118.193.154.197:3306/sq_meng6628</value>
+		</property>
+		<property name="username">
+			<value>sq_meng6628</value>
+		</property>
+		<property name="password">
+			<value>01syso</value>
+		</property>
+		<property name="initialSize">
+			<value>3</value>
+		</property>
+		<property name="maxIdle">
+			<value>2</value>
+		</property>
+		<property name="minIdle">
+			<value>1</value>
+		</property>
+		<property name="maxActive">
+			<value>5</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>180</value>
+		</property>
+		<property name="maxWait">
+			<value>1000</value>
+		</property>
+	</bean>
+       <!-- 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://61.158.167.136:3306/sq_meng6628</value>
+		</property>
+		<property name="username">
+			<value>sq_meng6628</value>
+		</property>
+		<property name="password">
+			<value>wyvcc3</value>
+		</property>
+		<property name="initialSize">
+			<value>3</value>
+		</property>
+		<property name="maxIdle">
+			<value>2</value>
+		</property>
+		<property name="minIdle">
+			<value>1</value>
+		</property>
+		<property name="maxActive">
+			<value>5</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>180</value>
+		</property>
+		<property name="maxWait">
+			<value>1000</value>
+		</property>
+	</bean>
+	 -->
+	 <!--
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://58.64.212.241:3306/sq_meng6628</value>
+		</property>
+		<property name="username">
+			<value>sq_meng6628</value>
+		</property>
+		<property name="password">
+			<value>01syso</value>
+		</property>
+		<property name="initialSize">
+			<value>3</value>
+		</property>
+		<property name="maxIdle">
+			<value>2</value>
+		</property>
+		<property name="minIdle">
+			<value>1</value>
+		</property>
+		<property name="maxActive">
+			<value>5</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>180</value>
+		</property>
+		<property name="maxWait">
+			<value>1000</value>
+		</property>
+	</bean>
+	  -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+		
+		<property name="mappingResources">
+			<list>
+				<value>/mfw/acegi/pojo/Category.hbm.xml</value>
+				<value>/mfw/acegi/pojo/Book.hbm.xml</value>
+				<value>/mfw/acegi/pojo/BookType.hbm.xml</value>
+				<value>/mfw/acegi/pojo/Company.hbm.xml</value>
+				<value>/mfw/acegi/pojo/Person.hbm.xml</value>
+				<value>/mfw/acegi/pojo/PersonBook.hbm.xml</value>
+				<value>/mfw/acegi/pojo/SubCategory.hbm.xml</value>
+				<value>/mfw/acegi/pojo/User.hbm.xml</value>
+				<value>/mfw/acegi/pojo/UserRole.hbm.xml</value>
+				<value>/mfw/acegi/pojo/Role.hbm.xml</value>
+			</list>	
+		</property>
+		
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="hibernate.max_fetch_depth">3</prop>
+				<prop key="hibernate.connection.release_mode">auto</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 配置事务管理器 -->
+		<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+			<property name="sessionFactory" ref="sessionFactory"></property>
+		</bean>
+		
+		<!-- 配置事务特征 -->
+		<tx:advice id="txAdvice" 
+			transaction-manager="transactionManager">
+			<tx:attributes>
+				<tx:method name="*" propagation="REQUIRED" rollback-for="Throwable"/>
+			</tx:attributes>
+		</tx:advice>
+		
+		<!-- 配置执行那些类的方法要执行事务 -->
+		
+		<aop:config>
+			<aop:pointcut id="DAOMethod" expression="execution(* mfw.acegi.biz.*.*(..))"/>
+			<aop:advisor advice-ref="txAdvice" pointcut-ref="DAOMethod"/>
+		</aop:config>
+		
+				
+		<bean id="categoryDao"					class="mfw.acegi.dao.CategoryDaoImpl">
+			<property name="sessionFactory" 	ref="sessionFactory"></property>
+		</bean>
+		<bean id="bookDao"						class="mfw.acegi.dao.BookDaoImpl">
+			<property name="sessionFactory" 	ref="sessionFactory"></property>
+		</bean>
+		<bean id="bookTypeDao"					class="mfw.acegi.dao.BookTypeDaoImpl">
+			<property name="sessionFactory" 	ref="sessionFactory"></property>
+		</bean>
+		<bean id="companyDao"					class="mfw.acegi.dao.CompanyDaoImpl">
+			<property name="sessionFactory" 	ref="sessionFactory"></property>
+		</bean>
+		<bean id="personDao"					class="mfw.acegi.dao.PersonDaoImpl">
+			<property name="sessionFactory" 	ref="sessionFactory"></property>
+		</bean>
+		<bean id="personBookDao"				class="mfw.acegi.dao.PersonBookDaoImpl">
+			<property name="sessionFactory" 	ref="sessionFactory"></property>
+		</bean>
+		<bean id="subCategoryDao"				class="mfw.acegi.dao.SubCategoryDaoImpl">
+			<property name="sessionFactory" 	ref="sessionFactory"></property>
+		</bean>
+		<bean id="userDao"						class="mfw.acegi.dao.UserDaoImpl">
+			<property name="sessionFactory" 	ref="sessionFactory"></property>
+		</bean>
+		<bean id="userRoleDao"					class="mfw.acegi.dao.UserRoleDaoImpl">
+			<property name="sessionFactory" 	ref="sessionFactory"></property>
+		</bean>
+		
+</beans>
